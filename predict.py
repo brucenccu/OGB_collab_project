@@ -1,23 +1,37 @@
 import sys, argparse
-import random
-import pickle
-from collections import defaultdict
 import numpy as np
 from tqdm import tqdm
-from sklearn import preprocessing
 from ogb.linkproppred import Evaluator
+
+
+def get_cos_score(edge_path,embed_dict,average):
+     src = []
+     dest = []
+     with open(edge_path,'r') as f:
+        for line in f:
+           src.append(line.split(' ')[0])
+           dest.append(line.split(' ')[1])
+     scores = []
+     for i in range(len(src)):
+        try:
+           scores.append(np.dot(embed_dict[src[i]],embed_dict[dest[i]]))
+        except:
+           if src[i] not in embed_dict.keys():
+              embed_dict[src[i]] = average
+           if dest[i] not in embed_dict.keys():
+              embed_dict[dest[i]] = average
+           scores.append(np.dot(embed_dict[src[i]],embed_dict[dest[i]]))
+     return scores
 
 parser = argparse.ArgumentParser(description='Argument Parser')
 parser.add_argument('--embed', help='embedding file')
-parser.add_argument('--mode', help='valid/test')
+#parser.add_argument('--mode', help='valid/test')
 args = parser.parse_args()
 
-if args.mode == "valid":
-        pos_path = "./valid/valid_pos_edge.txt"
-        neg_path = "./valid/valid_neg_edge.txt"
-else:
-        pos_path = "./test/test_pos_edge.txt"
-        neg_path = "./test/test_neg_edge.txt"
+val_pos_path = "./valid/valid_pos_edge.txt"
+val_neg_path = "./valid/valid_neg_edge.txt"
+test_pos_path = "./test/test_pos_edge.txt"
+test_neg_path = "./test/test_neg_edge.txt"
 
 embed_dict = {}
 aver = {}
@@ -40,47 +54,17 @@ for key,value in aver.items():
 		average+=value
 average = average/len(embed_dict)
 
-#pos_edge
-src = []
-dest = []
-with open(pos_path,'r') as f:
-     for line in f:
-        src.append(line.split(' ')[0])
-        dest.append(line.split(' ')[1])
-scores = []
-for i in range(len(src)):
-     try:
-        scores.append(np.dot(embed_dict[src[i]],embed_dict[dest[i]]))
-     except:
-        if src[i] not in embed_dict.keys():
-           embed_dict[src[i]] = average
-        if dest[i] not in embed_dict.keys():
-           embed_dict[dest[i]] = average
-        scores.append(np.dot(embed_dict[src[i]],embed_dict[dest[i]]))
 
-#neg_edge
-neg_src = []
-neg_dest = []
-with open(neg_path,'r') as f:
-     for line in f:
-        neg_src.append(line.split(' ')[0])
-        neg_dest.append(line.split(' ')[1])
+val_scores = get_cos_score(val_pos_path,embed_dict,average)
+val_neg_scores = get_cos_score(val_neg_path,embed_dict,average)
 
-neg_scores = []
-count = 0
-for i in range(len(neg_src)):
-     try:
-        neg_scores.append(np.dot(embed_dict[neg_src[i]],embed_dict[neg_dest[i]]))
-     except:
-        if neg_src[i] not in embed_dict.keys():
-           embed_dict[neg_src[i]] = average
-        if neg_dest[i] not in embed_dict.keys():
-           embed_dict[neg_dest[i]] = average
-        neg_scores.append(np.dot(embed_dict[neg_src[i]],embed_dict[neg_dest[i]]))
-
+test_scores = get_cos_score(test_pos_path,embed_dict,average)
+test_neg_scores = get_cos_score(test_neg_path,embed_dict,average)
 #evaluate
 evaluator = Evaluator(name = 'ogbl-collab')
-input_dict = {"y_pred_neg":np.array(neg_scores),"y_pred_pos":np.array(scores)}
-result = evaluator.eval(input_dict)
-print(args.mode)
-print(result)
+val_input_dict = {"y_pred_neg":np.array(val_neg_scores),"y_pred_pos":np.array(val_scores)}
+val_result = evaluator.eval(val_input_dict)
+print("valid_hit:",val_result)
+test_input_dict = {"y_pred_neg":np.array(test_neg_scores),"y_pred_pos":np.array(test_scores)}
+test_result = evaluator.eval(test_input_dict)
+print("test_hit:",test_result)
