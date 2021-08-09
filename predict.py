@@ -64,7 +64,9 @@ test_neg_scores = get_cos_score(test_neg_path,embed_dict,average)
 evaluator = Evaluator(name = 'ogbl-collab')
 val_input_dict = {"y_pred_neg":np.array(val_neg_scores),"y_pred_pos":np.array(val_scores)}
 val_result = evaluator.eval(val_input_dict)
-print("valid_hit:",val_result)
+print("Valid_Hit:")
+print("\thits@50 : ",val_result['hits@50'])
 test_input_dict = {"y_pred_neg":np.array(test_neg_scores),"y_pred_pos":np.array(test_scores)}
 test_result = evaluator.eval(test_input_dict)
-print("test_hit:",test_result)
+print("Test_Hit:")
+print("\thits@50 : ",test_result['hits@50'])
