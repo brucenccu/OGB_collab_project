@@ -25,25 +25,23 @@ def get_cos_score(edge_path,embed_dict,average):
 
 parser = argparse.ArgumentParser(description='Argument Parser')
 parser.add_argument('--embed', help='embedding file')
-#parser.add_argument('--mode', help='valid/test')
+parser.add_argument('--input_dim',type = int, help='the dimensions of embedding file')
 args = parser.parse_args()
 
-val_pos_path = "./valid/valid_pos_edge.txt"
-val_neg_path = "./valid/valid_neg_edge.txt"
-test_pos_path = "./test/test_pos_edge.txt"
-test_neg_path = "./test/test_neg_edge.txt"
+val_pos_path = "./data/valid/valid_pos_edge.txt"
+val_neg_path = "./data/valid/valid_neg_edge.txt"
+test_pos_path = "./data/test/test_pos_edge.txt"
+test_neg_path = "./data/test/test_neg_edge.txt"
 
 embed_dict = {}
 aver = {}
-count = 0
 with open(args.embed, 'r') as f:
      for line in f:
-        if count !=0:
-           entity_embed = line.rstrip('\n').split(' ')
-           embed_dict[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
-           aver[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
-        else:
-           count = 1
+        entity_embed = line.rstrip('\n').split(' ')
+        if len(entity_embed)-1!=args.input_dim:
+            continue
+        embed_dict[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
+        aver[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
 
 #average embedding
 average = []
