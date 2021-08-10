@@ -1,7 +1,7 @@
 # OGD_collab_project
 ## Introduction
 * This repository mainly applies HPE (**H**eterogeneous **P**reference **E**mbedding) to [ogbl-collab](https://ogb.stanford.edu/docs/linkprop/#ogbl-collab) dataset whose task is to predict the future author collaboration relationships given the past collaborations.
-* More information about HPE can refer to the following paper : 
+* More information about HPE can refer to this paper : 
 [Query-based Music Recommendations via Preference Embedding](https://dl.acm.org/doi/10.1145/2959100.2959169)
 ## Requirements
 * Python3
