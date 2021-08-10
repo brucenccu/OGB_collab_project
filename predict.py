@@ -38,7 +38,8 @@ aver = {}
 with open(args.embed, 'r') as f:
      for line in f:
         entity_embed = line.rstrip('\n').split(' ')
-        if len(entity_embed)-1!=args.input_dim:
+        if len(entity_embed)-1!=int(args.input_dim):
+            print(entity_embed)
             continue
         embed_dict[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
         aver[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
