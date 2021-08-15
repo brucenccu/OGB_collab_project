@@ -46,12 +46,14 @@ if 'edge_weight' in data:
 else:
     edge_weight = torch.ones(data.edge_index.size(1),dtype = int)
 
+#edge_weight = torch.ones(data.edge_index.size(1),dtype = int)
 
 val_edge_index = split_edge['valid']['edge'].t()
 val_edge_src = torch.cat((val_edge_index[0],val_edge_index[1]),0)
 val_edge_dest = torch.cat((val_edge_index[1],val_edge_index[0]),0)
 val_edge = torch.stack((val_edge_src,val_edge_dest),0)
-val_edge_weight = torch.ones(val_edge.size(1),dtype = int)
+#val_edge_weight = torch.ones(val_edge.size(1),dtype = int)
+val_edge_weight = torch.cat((split_edge['valid']['weight'].t(),split_edge['valid']['weight'].t()),0)
 
 train_val_edge = torch.cat((data.edge_index,val_edge),1)
 train_val_weight = torch.cat((edge_weight,val_edge_weight),0)
@@ -59,8 +61,8 @@ train_val_weight = torch.cat((edge_weight,val_edge_weight),0)
 print(val_edge_weight)
 print(train_val_weight)'''
 
-#A: Graph composed of nodes in training data
-#B: Graph composed of nodes in training data and validation data
+#A: The graph comsists of training data
+#B: The graph comsists of training data and validation data
 A = ssp.csr_matrix((edge_weight,(data.edge_index[0],data.edge_index[1])),shape = (num_nodes,num_nodes))
 B = ssp.csr_matrix((train_val_weight,(train_val_edge[0],train_val_edge[1])),shape = (num_nodes,num_nodes))
 
