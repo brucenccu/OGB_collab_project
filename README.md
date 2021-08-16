@@ -39,7 +39,7 @@ Options Description:
         the path of input file
     -save <string>
         Save the representation data
-    -embed <string>
+    -embed <string> (only for hpe_node_embed)
         the path of embedding file
     -dimensions <int>
         the dimensions of the input embedding file
