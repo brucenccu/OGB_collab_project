@@ -8,13 +8,11 @@
 * SMORe
 * OGB
 ## Download
+In the begining, you have to execute the following code.
 ```
 git clone --recursive https://github.com/brucenccu/OGB_collab_project
-```
-## SMORe Compilation
-```
-cd OGB_collab_project/smore
-make
+cd OGB_collab_project
+./download.sh
 ```
 ## Usage
 ### 1. Input data format:
@@ -26,8 +24,35 @@ nodeB nodeE 1
 nodeD nodeE 2
 ```
 ### 2. Get the HPE file
+#### a. Initial weights are random
 ```
 ./smore/cli/hpe -train <input_file> -save <embed_file>
+```
+#### b. Initial weights are given embedding of nodes. 
+```
+./smore/cli/hpe_node_embed -train <input_file> -save <embed_file> -embed <embed_file> -dimensions <dim>
+```
+#### Parameters:
+```
+Options Description:
+    -train <string>
+        the path of input file
+    -save <string>
+        Save the representation data
+    -embed <string>
+        the path of embedding file
+    -dimensions <int>
+        the dimensions of the input embedding file
+```
+#### Embedding data format:
+```
+//the embedding of the node 0 (0 is the index of the node)
+0.1 0.2 -0.4 0.1 0.4 ...
+//the embedding of the node 1 
+0.2 -0.3 -0.1 0.8 0.4 ...
+//the embedding of the node 2 
+0.9 0.2 -0.5 0.3 0.1 ...
+...
 ```
 You can get more usages from [SMORe](https://github.com/cnclabs/smore).
 
