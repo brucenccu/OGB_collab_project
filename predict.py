@@ -33,13 +33,21 @@ val_neg_path = "./data/valid/valid_neg_edge.txt"
 test_pos_path = "./data/test/test_pos_edge.txt"
 test_neg_path = "./data/test/test_neg_edge.txt"
 
+
 embed_dict = {}
 aver = {}
+count = 0
+'''with open('../node_embed.txt','r') as f:
+    for line in f:
+        entity_embed = line.rstrip('\n').split(' ')
+        embed_dict[str(count)] = np.array(entity_embed[:], dtype=float)
+        count+=1
+print(len(embed_dict))'''
 with open(args.embed, 'r') as f:
      for line in f:
         entity_embed = line.rstrip('\n').split(' ')
         if len(entity_embed)-1!=int(args.input_dim):
-            print(entity_embed)
+            #print(entity_embed)
             continue
         embed_dict[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
         aver[entity_embed[0]] = np.array(entity_embed[1:], dtype=float)
