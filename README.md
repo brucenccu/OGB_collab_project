@@ -1,8 +1,11 @@
 # OGD_collab_project
 ## Introduction
-* This repository mainly applies HPE (**H**eterogeneous **P**reference **E**mbedding) to [ogbl-collab](https://ogb.stanford.edu/docs/linkprop/#ogbl-collab) dataset whose task is to predict the future author collaboration relationships given the past collaborations.
-* More information about HPE can refer to this paper : 
-[Query-based Music Recommendations via Preference Embedding](https://dl.acm.org/doi/10.1145/2959100.2959169)
+* This repository mainly applies **HPE** ,**BPR** ,**WARP**, **HOP-REC** to [ogbl-collab](https://ogb.stanford.edu/docs/linkprop/#ogbl-collab) dataset whose task is to predict the future author collaboration relationships given the past collaborations.
+* More information about models can refer to these papers : 
+1. **HPE** : [Query-based Music Recommendations via Preference Embedding](https://dl.acm.org/doi/10.1145/2959100.2959169)
+2. **BPR** : [BPR: Bayesian personalized ranking from implicit feedback](https://dl.acm.org/doi/10.5555/1795114.1795167)
+3. **WARP** : [WSABIE: Scaling Up To Large Vocabulary Image Annotation](https://dl.acm.org/doi/10.5555/2283696.2283856) , [Learning to Rank Recommendations with the k-Order Statistic Loss](https://dl.acm.org/doi/10.1145/2507157.2507210)
+4. **HOP-REC** : [HOP-Rec: High-Order Proximity for Implicit Recommendation](https://dl.acm.org/doi/10.1145/3240323.3240381)
 ## Requirements
 * Python3
 * SMORe
@@ -16,6 +19,7 @@ cd OGB_collab_project
 ```
 ## Usage
 ### 1. Input data format:
+- training data
 ```
 nodeA nodeB 1
 nodeB nodeC 3
@@ -23,14 +27,28 @@ nodeA nodeD 2
 nodeB nodeE 1
 nodeD nodeE 2
 ```
-### 2. Get the HPE file
+- field data (HOP-REC) : to assign the field of each vertex (user or item)
+```
+nodeA u
+nodeB u
+nodeC u
+nodeD u 
+nodeE u
+```
+### 2. Get the embedding file
 #### a. Initial weights are random
 ```
-./smore/cli/hpe -train <input_file> -save <embed_file>
+./smore/cli/<model name> -train <input_file> -save <embed_file>
+
+Usage: 
+./smore/cli/hpe -train ./train.txt -save ./embed
 ```
 #### b. Initial weights are given embedding of nodes. 
 ```
-./smore/cli/hpe_node_embed -train <input_file> -save <embed_file> -embed <embed_file> -dimensions <dim>
+./smore/cli/<model_name>_node_embed -train <input_file> -save <embed_file> -embed <embed_file> -dimensions <dim>
+
+Usage: 
+./smore/cli/hpe_node_embed -train ./train.txt -save ./embed
 ```
 #### Parameters:
 ```
@@ -39,12 +57,12 @@ Options Description:
         the path of input file
     -save <string>
         Save the representation data
-    -embed <string> (only for hpe_node_embed)
+    -embed <string> (only for models whose initial weights are given embeddings of nodes)
         the path of embedding file
     -dimensions <int>
         the dimensions of the input embedding file
 ```
-#### Embedding data format:
+#### Pretrained embedding data format:
 ```
 //the embedding of the node 0 (0 is the index of the node)
 0.1 0.2 -0.4 0.1 0.4 ...
@@ -59,7 +77,7 @@ You can get more usages from [SMORe](https://github.com/cnclabs/smore).
 ### 3. Make prediction to obtain the Hit@50 result.
 #### Run:
 ```
-python3 predict.py --embed <embed_file> --input_dim <dimensions>
+python3 predict.py --embed <embed_file> --input_dim <dimensions> --undirected <directions>
 ```
 #### Parameters:
 ```
@@ -68,18 +86,34 @@ Options Description:
         the path of input embedding file
     --dimension <int>
         the dimensions of the input embedding file
+    --undirected <int>
+        whether the input graph is undirected or not (1/0)
 ```
 ## Example script
 Here, you can use the `run.sh` to run through the whole predict task.
 #### Run:
 ```
-./run.sh <input_file_path> <dimension>
+./run.sh -model <model_name> -train <input_file_path> -save <save_file_path> 
 ```
 #### Parameters:
 ```
 Options Description:
-    <input_file_path> <string>
-        the path of input input file
-    <dimension> <int>
-        the dimensions of the output embedding file by SMORe
+    -model 
+        name of the model you want to use.(hpe/bpr/warp/hoprec/<model_name>_node_embed)
+    -field (optional)
+        the path of the field data (HOP-REC)
+    -train
+        the path of input file
+    -save 
+        the path od output embedding file
+    -embed (optional)
+        the path od pretrained node embedding file
+    -dim 
+        the dimensions of the vertex representation; default is 64
+    -sample_times 
+        number of training samples *Million; default is 10
+    -threads
+        number of training threads; default is 1
+    -undirected
+        whether the input graph is undirected or not; default is 1
 ```
