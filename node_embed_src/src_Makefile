@@ -1,6 +1,5 @@
 CC = g++
 CPPFLAGS = -std=c++11 -fPIC -fopenmp -lm -Ofast
-    if ((i = ArgPos((char *)"-save", argc, argv)) > 0) strcpy(rep_file, argv[i + 1]);
 OBJECTS = util.o random.o proNet.o ./model/DeepWalk.o ./model/Walklets.o ./model/LINE.o ./model/HPE.o ./model/APP.o ./model/MF.o ./model/BPR.o ./model/HBPR.o ./model/NEMF.o ./model/WARP.o ./model/NERANK.o ./model/ECO.o ./model/GCN.o ./model/TEXTGCN.o ./model/TEXTGCNdev.o ./model/HPE_node_embed.o ./model/BPR_node_embed.o ./model/WARP_node_embed.o ./model/HBPR_node_embed.o
 all: $(OBJECTS)
 	mkdir -p ../bin
