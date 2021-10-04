@@ -36,6 +36,12 @@ do
             #echo "$i: $1"; 
             #echo "field argument"
         ;;
+        "-embed") 
+            shift 1
+            EMBEDFILE=$1
+            #echo "$i: $1"; 
+            #echo "field argument"
+        ;;
         "-dim")
             shift 1
             DIM=$1
@@ -93,6 +99,18 @@ then
     exit 1
 fi
 
+if [ $MODEL = "HOPREC_node_embed" ] && [ -z $FIELDFILE ];
+then
+    echo -e "You should give a field file for HOP-REC model!"
+    exit 1
+fi
+
+if [ $MODEL = "HPE_node_embed" -o $MODEL = "BPR_node_embed" -o $MODEL = "WARP_node_embed" -o $MODEL = "HOPREC_node_embed" ] && [ -z $EMBEDFILE ];
+then
+    echo -e "You should give a pretrained embedding file for the model!"
+    exit 1
+fi
+
 if [ $MODEL = "HPE" ]
 then
     echo -e "Training HPE embedding ..."
@@ -122,6 +140,39 @@ if [ $MODEL = "HOPREC" ]
 then
     echo -e "Training HOP-REC embedding ..."
     ./smore/cli/hoprec -train $TRAINFILE -save $SAVEFILE -field $FIELDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+    echo -e "Start to predict ...."
+    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+fi
+
+if [ $MODEL = "HPE_node_embed" ]
+then
+    echo -e "Training HPE_node_embed embedding ..."
+    ./smore/cli/hpe_node_embed -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+    echo -e "Start to predict ...."
+    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+fi
+
+if [ $MODEL = "BPR_node_embed" ]
+then
+    echo -e "Training BPR_node_embed embedding ..."
+    ./smore/cli/bpr -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+    echo -e "Start to predict ...."
+    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED
+fi
+
+if [ $MODEL = "WARP_node_embed" ]
+then
+    echo -e "Training WARP_node_embed embedding ..."
+    ./smore/cli/warp -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+    echo -e "Start to predict ...."
+    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+fi
+
+
+if [ $MODEL = "HOPREC_node_embed" ]
+then
+    echo -e "Training HOP-REC_node_embed embedding ..."
+    ./smore/cli/hoprec -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -field $FIELDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
     echo -e "Start to predict ...."
     python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
 fi
