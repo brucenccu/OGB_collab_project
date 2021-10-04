@@ -8,7 +8,7 @@ UNDIRECTED=1
 i=1;
 j=$#;
 c=$(($j%2))
-echo $c
+#echo $c
 if [ $(($j%2)) != 0 ]; then    
     echo "the arguments are not correct!"
     exit 1;
