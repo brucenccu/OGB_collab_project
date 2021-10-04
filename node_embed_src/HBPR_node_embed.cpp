@@ -18,7 +18,7 @@ void HBPR_node_embed::LoadFieldMeta(string filename) {
     pnet.LoadFieldMeta(filename);
 }
 
-void HBPR::SaveWeights(string model_name){
+void HBPR_node_embed::SaveWeights(string model_name){
     
     cout << "Save Model:" << endl;
     ofstream model(model_name);
