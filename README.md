@@ -99,7 +99,7 @@ Here, you can use the `run.sh` to run through the whole predict task.
 ```
 Options Description:
     -model 
-        name of the model you want to use.(hpe/bpr/warp/hoprec/<model_name>_node_embed)
+        name of the model you want to use.(HPE/BPR/WARP/HOPREC/<model_name>_node_embed)
     -field (optional)
         the path of the field data (HOP-REC)
     -train
