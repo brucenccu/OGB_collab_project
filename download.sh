@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo -e "Download the dataset ..."
+wget -O ./data.tar.gz "https://www.dropbox.com/s/snkpt7aihmesaws/data.tar.gz?dl=0"
+tar zxvf ./data.tar.gz
+
+echo -e "Download Successfully!"
+echo -e
 echo -e "Compile the SMORe ......"
 cp ./node_embed_src/src_Makefile ./smore/src/Makefile
 cp ./node_embed_src/cli_Makefile ./smore/cli/Makefile
@@ -23,8 +29,3 @@ cp ./node_embed_src/cli_hoprec_node_embed.cpp ./smore/cli/hoprec_node_embed.cpp
 cd smore
 make
 
-echo -e "Download the dataset ..."
-wget -O ./data.tar.gz "https://www.dropbox.com/s/snkpt7aihmesaws/data.tar.gz?dl=0"
-tar zxvf ./data.tar.gz
-
-echo -e "Download Successfully!"
