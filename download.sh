@@ -1,11 +1,16 @@
 #!/bin/bash
 
 echo -e "Download the dataset ..."
-wget -O ./data.tar.gz "https://www.dropbox.com/s/snkpt7aihmesaws/data.tar.gz?dl=0"
+wget -O ./data.tar.gz "https://www.dropbox.com/s/poqwotz6wb6f6p3/data.zip?dl=0"
 tar zxvf ./data.tar.gz
 
+#wget -O ./node_embed.tar.gz "https://www.dropbox.com/s/6eaechujlxy4n1t/node_embed.zip?dl=0"
+#tar zxvf ./node_embed.tar.gz
+#mv node_embed.txt data
 echo -e "Download Successfully!"
 echo -e
+
+
 echo -e "Compile the SMORe ......"
 cp ./node_embed_src/src_Makefile ./smore/src/Makefile
 cp ./node_embed_src/cli_Makefile ./smore/cli/Makefile
