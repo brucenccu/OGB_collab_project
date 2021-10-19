@@ -27,8 +27,9 @@ git submodule update
 cd OGB_collab_project
 ./prepare.sh
 ```
-3. If there isn't any error, you can use ```run.sh``` to get the result of the prediction.
+3. If there isn't any error, you can use ```run.sh``` to get the prediction. (```field_make.py``` is just for ```HOPREC```)
 ```
+python3 field_make.py --path ./data/train/train_valid_2010.txt 
 ./run.sh -model HOPREC -train ./data/train/train_valid_2010.txt -save ./data/train/embed -field ./data/train/field.txt -dim 128 -sample_times 500 -threads 8 -undirected 1
 ```
 Note : You can get more usage below.
@@ -93,6 +94,7 @@ You can get more usages from [SMORe](https://github.com/cnclabs/smore).
 #### Run:
 ```
 python3 predict.py --embed <embed_file> --input_dim <dimensions> --undirected <directions>
+python3 logger.py
 ```
 #### Parameters:
 ```
