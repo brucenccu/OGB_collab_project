@@ -85,5 +85,8 @@ val_input_dict = {"y_pred_neg":np.array(val_neg_scores),"y_pred_pos":np.array(va
 val_result = evaluator.eval(val_input_dict)
 test_input_dict = {"y_pred_neg":np.array(test_neg_scores),"y_pred_pos":np.array(test_scores)}
 test_result = evaluator.eval(test_input_dict)
-print("Valid Hit: \n\thits@50 : {:.4f}".format(float(torch.mean(torch.tensor(val_result["hits@50"])))))
-print("Test Hit: \n\thits@50 : {:.4f}".format(float(torch.mean(torch.tensor(test_result["hits@50"])))))
+with open('score.txt','a') as f:
+    f.write(str(val_result["hits@50"])+" "+str(test_result["hits@50"])+"\n")
+#print(val_result["hits@50"])
+#print("Valid Hit: \n\thits@50 : {:.4f} ±{:.4f}".format(float(torch.mean(torch.tensor(val_result["hits@50"]))),float(torch.std(torch.tensor(val_result["hits@50"])))))
+#print("Test Hit: \n\thits@50 : {:.4f}".format(float(torch.mean(torch.tensor(test_result["hits@50"])))))

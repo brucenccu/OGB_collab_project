@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIM=64
+DIM=128
 SAMPLETIME=10
 THREADS=1
 UNDIRECTED=1
@@ -113,66 +113,114 @@ fi
 
 if [ $MODEL = "HPE" ]
 then
-    echo -e "Training HPE embedding ..."
-    ./smore/cli/hpe -train $TRAINFILE -save $SAVEFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    for i in {1..10}
+    do  
+        echo -e "Run $i"
+        echo -e "Training HPE embedding ..."
+        ./smore/cli/hpe -train $TRAINFILE -save $SAVEFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
 
 if [ $MODEL = "BPR" ]
 then
-    echo -e "Training BPR embedding ..."
-    ./smore/cli/bpr -train $TRAINFILE -save $SAVEFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED
+    for i in {1..10}
+    do
+        echo -e "Run $i"
+        echo -e "Training BPR embedding ..."
+        ./smore/cli/bpr -train $TRAINFILE -save $SAVEFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
 
 if [ $MODEL = "WARP" ]
 then
-    echo -e "Training WARP embedding ..."
-    ./smore/cli/warp -train $TRAINFILE -save $SAVEFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    for i in {1..10}
+    do
+        echo -e "Run $i"
+        echo -e "Training WARP embedding ..."
+        ./smore/cli/warp -train $TRAINFILE -save $SAVEFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
 
 
 if [ $MODEL = "HOPREC" ]
 then
-    echo -e "Training HOP-REC embedding ..."
-    ./smore/cli/hoprec -train $TRAINFILE -save $SAVEFILE -field $FIELDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    for i in {1..10}
+    do
+        echo -e "Run $i"
+        echo -e "Training HOP-REC embedding ..."
+        ./smore/cli/hoprec -train $TRAINFILE -save $SAVEFILE -field $FIELDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
 
 if [ $MODEL = "HPE_node_embed" ]
 then
-    echo -e "Training HPE_node_embed embedding ..."
-    ./smore/cli/hpe_node_embed -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    for i in {1..10}
+    do
+        echo -e "Run $i"
+        echo -e "Training HPE_node_embed embedding ..."
+        ./smore/cli/hpe_node_embed -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
 
 if [ $MODEL = "BPR_node_embed" ]
 then
-    echo -e "Training BPR_node_embed embedding ..."
-    ./smore/cli/bpr -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED
+    for i in {1..10}
+    do
+        echo -e "Run $i"
+        echo -e "Training BPR_node_embed embedding ..."
+        ./smore/cli/bpr -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
 
 if [ $MODEL = "WARP_node_embed" ]
 then
-    echo -e "Training WARP_node_embed embedding ..."
-    ./smore/cli/warp -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    for i in {1..10}
+    do
+        echo -e "Run $i"
+        echo -e "Training WARP_node_embed embedding ..."
+        ./smore/cli/warp -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
 
 
 if [ $MODEL = "HOPREC_node_embed" ]
 then
-    echo -e "Training HOP-REC_node_embed embedding ..."
-    ./smore/cli/hoprec -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -field $FIELDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
-    echo -e "Start to predict ...."
-    python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    for i in {1..10}
+    do
+        echo -e "Run $i"
+        echo -e "Training HOP-REC_node_embed embedding ..."
+        ./smore/cli/hoprec -train $TRAINFILE -save $SAVEFILE -embed $EMBEDFILE -field $FIELDFILE -dimensions $DIM -sample_times $SAMPLETIME -threads $THREADS
+        echo -e "Start to predict ...."
+        python3 ./predict.py --embed $SAVEFILE --input_dim $DIM --undirected $UNDIRECTED 
+    done
+    python3 ./logger.py
+    rm score.txt
 fi
