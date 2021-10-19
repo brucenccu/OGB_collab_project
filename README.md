@@ -10,13 +10,28 @@
 * Python3
 * SMORe
 * OGB
-## Download
-In the begining, you have to execute the following code.
+## Quick Start
+1. Clone the repository
 ```
 git clone --recursive https://github.com/brucenccu/OGB_collab_project
-cd OGB_collab_project
-./download.sh
 ```
+or you can execute following code
+```
+git clone https://github.com/brucenccu/OGB_collab_project
+cd OGB_collab_project
+git submodule init
+git submodule update
+```
+2. Download the dataset and compile the SMORe
+```
+cd OGB_collab_project
+./prepare.sh
+```
+3. If there isn't any error, you can use ```run.sh``` to get the result of the prediction.
+```
+./run.sh -model HOPREC -train ./data/train/train_valid_2010.txt -save ./data/train/embed -field ./data/train/field.txt -dim 128 -sample_times 500 -threads 8 -undirected 1
+```
+Note : You can get more usage below.
 ## Usage
 ### 1. Input data format:
 - training data
