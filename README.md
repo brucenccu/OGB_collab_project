@@ -1,4 +1,4 @@
-# OGD_collab_project
+# OGB_collab_project
 ## Introduction
 * This repository mainly applies **HPE** ,**BPR** ,**WARP**, **HOP-REC** to [ogbl-collab](https://ogb.stanford.edu/docs/linkprop/#ogbl-collab) dataset whose task is to predict the future author collaboration relationships given the past collaborations.
 * More information about models can refer to these papers : 
