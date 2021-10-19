@@ -16,6 +16,6 @@ with open(args.path,'r') as f:
         new_data.append('s_'+tmp[0]+" d_"+tmp[1]+" "+tmp[2])
         new_data.append('s_'+tmp[1]+" d_"+tmp[0]+" "+tmp[2])
 #print(len(new_data))
-with open('./field.txt','w') as f:
+with open('./data/train/field.txt','w') as f:
     for key,value in field_data.items():
         f.write(str(key)+" s\n")
