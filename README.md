@@ -134,3 +134,23 @@ Options Description:
     -undirected
         whether the input graph is undirected or not; default is 1
 ```
+## Experiment 
+In addition to using the original data set, we also filter out edges with a closer year to be the new data set.The following descriptions are about different datasets.
+- **train_all** : all edges until 2017
+- **train_2015** : all edges from 2015 - 2017
+- **train_valid_all** : all edges until 2018
+- **train_valid_2010** : all edges from 2010 - 2018
+- **train_valid_2015** : all edges from 2015 - 2018
+
+### HOPREC for five different datasets
+
+#### (sample_times = 500, dimensions = 128, alpha = 0.025)
+|                  | Without Pretrained (valid/test) | with Pretrained (valid/test) |
+|:----------------:|:-------------------------------:|:----------------------------:|
+|    train_all     |         0.6588 / 0.5596         |       0.6639 / 0.5682        |
+|    train_2015    |         0.6410 / 0.5426         |       0.6516 / 0.5551        |
+| train_valid_all  |         1.000 / 0.6687          |       0.9995 / 0.6805        |
+| train_valid_2015 |         1.000 / 0.6670          |        1.000 / 0.6741        |
+| train_valid_2010 |         1.000 / 0.7005          |        1.000 / 0.7077        |
+
+The result of other models can be referred to this [report](https://docs.google.com/document/d/1zPKYJFE1OJ6IcmO7ZirHIOZboVWQgbzMPGBNZxLSZKo/edit?usp=sharing).
