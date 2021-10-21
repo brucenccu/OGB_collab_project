@@ -135,7 +135,7 @@ Options Description:
         whether the input graph is undirected or not; default is 1
 ```
 ## Experiment 
-In addition to using the original data set, we also filter out edges with a closer year to be the new data set.The following descriptions are about different datasets.
+In addition to using the original dataset, we also filter out edges with a closer year to be the new dataset.The following descriptions are about different datasets.
 - **train_all** : all edges until 2017
 - **train_2015** : all edges from 2015 - 2017
 - **train_valid_all** : all edges until 2018
